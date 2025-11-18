@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: goapp-appset
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - env: dev
+            branch: develop
+          - env: staging
+            branch: staging
+          - env: prod
+            branch: master
+  template:
+    metadata:
+      name: 'goapp-{{`{{.env}}`}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        path: charts/goapp
+        targetRevision: '{{`{{.branch}}`}}'
+        helm:
+          releaseName: 'goapp-{{`{{.env}}`}}'
+          valueFiles: 
+            - values-{{`{{.env}}`}}.yaml
+      destination:
+        server: {{ .Values.server }}
+        namespace: '{{`{{.branch}}`}}'

@@ -1,0 +1,7 @@
+.github/*
+charts/*
+deploy/*
+argocd-deployments/*
+.gitignore
+.dockerignore
+Dockerfile

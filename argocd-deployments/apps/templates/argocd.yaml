@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: {{ .Values.repoUrl }}
+    path: charts/argocd/
+    targetRevision: HEAD
+    helm:
+      releaseName: argocd
+  destination:
+    server: {{ .Values.server }}
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true

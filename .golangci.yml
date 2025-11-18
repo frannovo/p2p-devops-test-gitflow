@@ -1,0 +1,16 @@
+version: "2"
+
+linters:
+  default: none
+
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - goimports
+  settings:
+    gofmt:
+      simplify: false
+issues:
+  new: true
+

@@ -1,0 +1,10 @@
+argo-cd:
+  server:
+    extraArgs:
+      - --insecure
+
+environments:
+  - dev
+  - staging
+  - prod
+  
