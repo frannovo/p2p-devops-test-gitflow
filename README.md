@@ -57,7 +57,7 @@ CI/CD is implemented using GitHub actions and GitOps with ArgoCD. Workflows can 
 - [ci.yaml](.github/workflows/ci.yaml). Build and test the go application. Automated every push. 
 - [sast.yaml](.github/workflows/sast.yaml). Static Application Security Testing using gosec. Automated on PR creation/sync.
 - [sca.yaml](.github/workflows/sca.yaml). Software Composition Analysis using nancy. Automated on PR creation/sync.
-- [cd.yaml](.github/workflows/cd.yaml). Build and Publish Docker Image. Update the image tag. Automated push to master/staging/develop branch.
+- [cd.yaml](.github/workflows/cd.yaml). Build and Publish Docker Image. Update the image tag based on the target branch. Automated push to master/staging/develop branch.
 
 #### Repository Variables
 
@@ -164,33 +164,22 @@ Deleted nodes: ["p2p-devops-worker2" "p2p-devops-control-plane" "p2p-devops-work
 [INFO] Cluster 'p2p-devops' has been successfully deleted.
 ```
 
-## GitHub and Environments
+## GitFlow and Environments
 
 ### Environments
 
 Dev, Staging and Production environments are deployed into `dev`, `staging` and `prod` namespaces
 on the Kubernetes cluster respectively.
 
-Auto sync is enabled in lower environments (`dev` and `staging`), meawhile manual sync is required to 
-deploy into `prod` environment.
+### GitFlow
 
-### GitHub Flow
+This repository follows GitFlow based on a master, staging, develop and feature (feature/release/hotfix/bugfix) branches.
 
-This repository follows GitHub flow based on a master branch and short-living branches.
+Deployment to `dev`: Merge a feature branch into develop. ArgoCD (watching the develop branch) detects changes and syncs them to the `dev` environment.
 
-When a pull request (PR) is merged to master, a new docker images is built and pushed to `ghrc.io` with
-the related commit sha as tag. The new image is automatically deployed to the `dev` environment.
+Deployment to `staging`: Create a Pull Request from develop to staging. After CI passes and the PR is approved, merging it triggers the Staging deployment. ArgoCD (watching staging) syncs to the `staging` environent.
 
-Once the version is ready to be promoted, it can be deployed to the `staging` environment executing the 
-[Promote to Staging](.github/workflows/promote-to-staging.yml) workflow providing the image tag.
-
-![promote-to-staging](./docs/promote-to-staging.png)
-
-Promotion to production is performed by executing [Promote to Production](.github/workflows/promote-to-prod.yml)
-workflow providing the image tag. If no image tag is provided, the image tag will be picked up from staging values file
-[values-staging.yaml](charts/goapp/values-staging.yaml)
-
-![promote-to-prod](./docs/promote-to-prod.png)
+Production Deployment: Create a Pull Request from `staging` to `main`. After final checks and approval, merging it triggers the Production deployment. ArgoCD (watching main) syncs to the Production cluster.
 
 
 ## TODO Improvements
