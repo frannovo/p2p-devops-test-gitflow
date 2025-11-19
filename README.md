@@ -57,7 +57,7 @@ CI/CD is implemented using GitHub actions and GitOps with ArgoCD. Workflows can 
 - [ci.yaml](.github/workflows/ci.yaml). Build and test the go application. Automated every push. 
 - [sast.yaml](.github/workflows/sast.yaml). Static Application Security Testing using gosec. Automated on PR creation/sync.
 - [sca.yaml](.github/workflows/sca.yaml). Software Composition Analysis using nancy. Automated on PR creation/sync.
-- [cd.yaml](.github/workflows/cd.yaml). Build and Publish Docker Image. Update the image tag based on the target branch. Automated push to master/staging/develop branch.
+- [cd.yaml](.github/workflows/cd.yaml). Build and Publish Docker Image. Update the related values file based on the target branch. Automated push to master/staging/develop branch.
 
 #### Repository Variables
 
