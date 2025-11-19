@@ -175,11 +175,13 @@ on the Kubernetes cluster respectively.
 
 This repository follows GitFlow based on a master, staging, develop and feature (feature/release/hotfix/bugfix) branches.
 
-Deployment to `dev`: Merge a feature branch into develop. ArgoCD (watching the develop branch) detects changes and syncs them to the `dev` environment.
+Deployment to Dev: Merge a feature branch into develop. ArgoCD (watching the develop branch) detects changes and syncs them to the `dev` namespace.
 
-Deployment to `staging`: Create a Pull Request from develop to staging. After CI passes and the PR is approved, merging it triggers the Staging deployment. ArgoCD (watching staging) syncs to the `staging` environent.
+Deployment to Staging: Create a Pull Request from develop to staging. After CI passes and the PR is approved, merging it triggers the Staging deployment. 
+ArgoCD (watching staging) syncs to the `staging` namespace.
 
-Production Deployment: Create a Pull Request from `staging` to `main`. After final checks and approval, merging it triggers the Production deployment. ArgoCD (watching main) syncs to the Production cluster.
+Production Deployment: Create a Pull Request from `staging` to `main`. After final checks and approval, merging it triggers the Production deployment.
+ArgoCD (watching master) syncs to the `pros` namespace.
 
 
 ## TODO Improvements
