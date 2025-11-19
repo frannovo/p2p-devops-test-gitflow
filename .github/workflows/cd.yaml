@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          push: false
+          push: true
           load: true
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
@@ -57,14 +57,6 @@ jobs:
           vuln-type: "os,library"
           format: "table"
           severity: "CRITICAL,HIGH,MEDIUM"
-
-      - name: Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          load: true
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG}}
 
   gitops-trigger:
     name: Update Helm Values for Deployment

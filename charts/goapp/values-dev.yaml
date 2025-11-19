@@ -6,7 +6,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: f5ba6e8dd5d3f1db56663ea8e34c564be40be815
+  tag: 09336623fdf99de044590394e4e116ef93da6d24
 
 
 autoscaling:
