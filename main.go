@@ -14,8 +14,18 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	_, err := fmt.Fprint(w, "OK")
+	if err != nil {
+		fmt.Println("Error writing healthcheck response:", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
 func main() {
 	http.HandleFunc("/", IndexHandler)
+	http.HandleFunc("/healthz", HealthCheckHandler)
 	fmt.Println("Web app running on localhost:3000")
 
 	server := &http.Server{
