@@ -4,7 +4,7 @@ replicaCount: 2
 image:
   repository: ghcr.io/frannovo/p2p-devops-test-gitflow
   pullPolicy: IfNotPresent
-  tag: e355fcba0fcab9e6414993bad6206c5904314a1b
+  tag: b4b740ce48f4b0fdf6a004bb54e9dae6892796e6
 
 autoscaling:
   enabled: true
